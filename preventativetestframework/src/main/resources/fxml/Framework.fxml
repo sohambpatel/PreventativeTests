@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.preventative.frameworkui.FrameworkController">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="493.0" style="-fx-background-color: #FFFFFF;">
+            <children>
+                <Label layoutX="84.0" layoutY="83.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Test: Parallel Execution" textFill="#6e6f75">
+                    <font>
+                        <Font name="System Bold" size="27.0" />
+                    </font>
+                </Label>
+                <Label layoutX="103.0" layoutY="250.0" text="Copyright © 2024 Soham Patel, Kailas Patil Vishwakarma University. All rights reserved" textFill="#8b8fa1">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <RadioButton fx:id="startRecordingButton" layoutX="143.0" layoutY="159.0" mnemonicParsing="false" onAction="#startrecordingScene" text="Preventative Test : Start Testing" />
+            </children></AnchorPane>
+    </items>
+</SplitPane>

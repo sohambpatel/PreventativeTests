@@ -1,0 +1,13 @@
+package com.preventative.frameworkui;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PreventativeTestApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
