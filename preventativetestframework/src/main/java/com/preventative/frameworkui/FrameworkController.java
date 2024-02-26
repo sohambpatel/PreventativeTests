@@ -42,6 +42,9 @@ public class FrameworkController {
     RadioButton startRecordingButton;
 
     @FXML
+    RadioButton startPreventativeTests;
+
+    @FXML
     protected Button jiraxrayintegration;
 
     String selectedJenkinsFile = "";
@@ -60,6 +63,12 @@ public class FrameworkController {
     @FXML
     void startrecordingScene(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(new ClassPathResource("/fxml/WebRecording.fxml").getURL());
+        startRecordingButton.getScene().setRoot(root);
+    }
+
+    @FXML
+    void startpreventativeScene(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(new ClassPathResource("/fxml/PreventativeTest.fxml").getURL());
         startRecordingButton.getScene().setRoot(root);
     }
 

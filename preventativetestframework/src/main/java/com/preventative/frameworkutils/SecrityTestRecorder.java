@@ -16,7 +16,7 @@ public class SecrityTestRecorder {
             String reportfilename="security_zap_report.html";
             String targetfolder;
             if(System.getProperty("os.name").contains("Windows")){
-                targetfolder = System.getProperty("user.home")+"/Downloads/";
+                targetfolder = System.getProperty("user.home")+"\\Downloads\\";
             }else{
                 targetfolder = System.getProperty("user.name")+"/Downloads/";
             }

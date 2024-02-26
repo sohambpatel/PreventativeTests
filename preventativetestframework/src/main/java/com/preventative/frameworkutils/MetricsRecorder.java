@@ -28,7 +28,7 @@ public class MetricsRecorder {
                     System.out.println(event.getText());
                     String consolelogfilepath;
                     if(System.getProperty("os.name").contains("Windows")){
-                        consolelogfilepath = System.getProperty("user.home")+"/Downloads/consolelogs.log";
+                        consolelogfilepath = System.getProperty("user.home")+"\\Downloads\\consolelogs.log";
                     }else{
                         consolelogfilepath = System.getProperty("user.name")+"/Downloads/consolelogs.log";
                     }
@@ -48,7 +48,7 @@ public class MetricsRecorder {
         devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
         String performancelogfilelocation;
         if (System.getProperty("os.name").contains("Windows")) {
-            performancelogfilelocation = System.getProperty("user.home")+"/Downloads/performancelogs.log";
+            performancelogfilelocation = System.getProperty("user.home")+"\\Downloads\\performancelogs.log";
         } else {
             performancelogfilelocation = System.getProperty("user.name")+"/Downloads/performancelogs.log";
         }

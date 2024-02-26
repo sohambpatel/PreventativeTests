@@ -14,22 +14,24 @@
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="493.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <Label layoutX="84.0" layoutY="83.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Test: Parallel Execution" textFill="#6e6f75">
+            <Label layoutX="84.0" layoutY="43.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Test: Parallel Execution" textFill="#6e6f75">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
             </Label>
-            <Label layoutX="124.0" layoutY="164.0" text="URL :" />
-            <TextField fx:id="URL" layoutX="161.0" layoutY="159.0" onKeyTyped="#updatedURL" prefHeight="26.0" prefWidth="240.0" />
-            <Button fx:id="startrecordingButton" layoutX="161.0" layoutY="216.0" mnemonicParsing="false" onAction="#start" prefHeight="35.0" prefWidth="139.0" text="Start Testing" />
-            <Button fx:id="stoprecording"  layoutX="320.0" layoutY="216.0" mnemonicParsing="false" onAction="#stop" prefHeight="35.0" prefWidth="139.0" text="Stop Testing" />
-            <Button fx:id="getrecommendation"  layoutX="480.0" layoutY="216.0" mnemonicParsing="false" onAction="#getRecommendation" prefHeight="35.0" prefWidth="139.0" text="Get Recommendation" />
+            <Label layoutX="124.0" layoutY="124.0" text="URL :" />
+            <TextField fx:id="URL" layoutX="161.0" layoutY="119.0" onKeyTyped="#updatedURL" prefHeight="26.0" prefWidth="240.0" />
+            <Label layoutX="124.0" layoutY="160.0" text="Path To Properties File :" />
+            <TextField fx:id="PATH" layoutX="260.0" layoutY="160.0" onKeyTyped="#updatePath" prefHeight="26.0" prefWidth="240.0" />
+            <Button fx:id="startrecordingButton" layoutX="161.0" layoutY="210.0" mnemonicParsing="false" onAction="#start" prefHeight="35.0" prefWidth="139.0" text="Start Testing" />
+            <Button fx:id="stoprecording"  layoutX="320.0" layoutY="210.0" mnemonicParsing="false" onAction="#stop" prefHeight="35.0" prefWidth="139.0" text="Stop Testing" />
+            <Button fx:id="getrecommendation"  layoutX="480.0" layoutY="210.0" mnemonicParsing="false" onAction="#getRecommendation" prefHeight="35.0" prefWidth="139.0" text="Get Recommendation" />
             <ImageView fx:id="backButton" fitHeight="21.0" fitWidth="55.0" layoutX="110.0" layoutY="270.0" onMouseClicked="#frameworkScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/backarrow.png" />
                </image>
             </ImageView>
-            <Text fx:id="message" fill="RED" layoutX="217.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please, enter a valid URL" visible="false" />
+            <Text fx:id="message" fill="RED" layoutX="217.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please, enter a valid URL" visible="false" />
          </children>
       </AnchorPane>
    </items>

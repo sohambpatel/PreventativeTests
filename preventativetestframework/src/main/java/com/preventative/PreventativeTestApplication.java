@@ -6,7 +6,7 @@ import javafx.application.Application;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.annotation.PreDestroy;
+//import javax.annotation.PreDestroy;
 
 @SpringBootApplication
 public class PreventativeTestApplication {
@@ -14,7 +14,7 @@ public class PreventativeTestApplication {
 		Application.launch(FrameworkUI.class,args);
 	}
 
-	@PreDestroy
-	public void destroy(){
-	}
+//	@PreDestroy
+//	public void destroy(){
+//	}
 }

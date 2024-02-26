@@ -12,17 +12,18 @@
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="493.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <Label layoutX="84.0" layoutY="83.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Test: Parallel Execution" textFill="#6e6f75">
+                <Label layoutX="84.0" layoutY="43.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Tests" textFill="#6e6f75">
                     <font>
                         <Font name="System Bold" size="27.0" />
                     </font>
                 </Label>
-                <Label layoutX="103.0" layoutY="250.0" text="Copyright © 2024 Soham Patel, Kailas Patil Vishwakarma University. All rights reserved" textFill="#8b8fa1">
+                <Label layoutX="103.0" layoutY="270.0" text="Copyright © 2024 Soham Patel, Kailas Patil Vishwakarma University. All rights reserved" textFill="#8b8fa1">
                     <font>
                         <Font size="12.0" />
                     </font>
                 </Label>
-                <RadioButton fx:id="startRecordingButton" layoutX="143.0" layoutY="159.0" mnemonicParsing="false" onAction="#startrecordingScene" text="Preventative Test : Start Testing" />
+                <RadioButton fx:id="startRecordingButton" layoutX="143.0" layoutY="119.0" mnemonicParsing="false" onAction="#startrecordingScene" text="Preventative Test, Parallel Execution : Start Testing" />
+                <RadioButton fx:id="startPreventativeTests" layoutX="143.0" layoutY="160.0" mnemonicParsing="false" onAction="#startpreventativeScene" text="Preventative Test, Finalizing Test Suite Based on Synthetic App Monitoring" />
             </children></AnchorPane>
     </items>
 </SplitPane>

@@ -6,8 +6,13 @@ import java.net.URL;
 import org.apache.hc.client5.http.HttpResponseException;
 
 public class GenAIHandler {
-    String CHATGPTURL="https://api.openai.com/v1";
-    String API_KEY="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";
+    String CHATGPTURL="";
+    String API_KEY="";
+
+    public GenAIHandler(String chatgpturl,String chatgptapikey){
+        this.CHATGPTURL=chatgpturl;
+        this.API_KEY=chatgptapikey;
+    }
 
     public String generateRecommendation(String prompt, String content) throws Exception {
         try {
@@ -34,9 +39,11 @@ public class GenAIHandler {
                     "}");
             writer.flush();
             writer.close();
+            String soham=httpConn.getOutputStream().toString();
             httpConn.getOutputStream().close();
             int responseCode = httpConn.getResponseCode();
             if (responseCode != 204 || responseCode!=200) {
+                System.out.print("Response is: "+httpConn.getResponseMessage());
                 throw new HttpResponseException(responseCode, "We are getting other than 200 or 204 for api call");
             }
 

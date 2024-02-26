@@ -39,6 +39,9 @@ public class RecordingController {
     private TextField URL;
 
     @FXML
+    private TextField PATH;
+
+    @FXML
     private ImageView backButton;
 
     @FXML
@@ -70,10 +73,10 @@ public class RecordingController {
     FileWriter fw1;
     PrintWriter pw1;
     File f1;
-
-    static final String ZAP_PROXY_ADDRESS="localhost";
-    static final int ZAP_PROXY_PORT=8080;
-    static final String ZAP_API_KEY="ut7mrkl7sma681mv17a174tvk5";
+    Properties configProperties;
+    static final String ZAP_PROXY_ADDRESS="";
+    static final int ZAP_PROXY_PORT = 0;
+    static final String ZAP_API_KEY="";
 
     public ClientApi clientApi;
     public Text getMessage() {
@@ -85,11 +88,20 @@ public class RecordingController {
         getMessage().setVisible(false);
     }
 
+    @FXML
+    void updatePath(KeyEvent event){
+        getMessage().setVisible(false);
+    }
+
     private String getURL() {
         return URL.getText();
     }
-    public void setClientApi(){
-        clientApi=new ClientApi(ZAP_PROXY_ADDRESS, ZAP_PROXY_PORT,ZAP_API_KEY);
+
+    private String getPATH() {
+        return PATH.getText();
+    }
+    public void setClientApi(String zapproxyaddress,int zapport,String zapapikey){
+        clientApi=new ClientApi(zapproxyaddress,zapport,zapapikey);
     }
 
     public ClientApi getClientApi(){
@@ -106,6 +118,17 @@ public class RecordingController {
     void start(ActionEvent event) throws ClientApiException {
         URL url;
         String urlString = getURL();
+        try {
+            String propertyfilepath = getPATH();
+            configProperties = new Properties();
+            configProperties = PropertyFileLoader.readPropertyValues(propertyfilepath);
+        }catch(Exception e){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("ERROR OCCURED, \nPlease check console logs");
+            alert.show();
+            e.printStackTrace();
+            throw new RuntimeException("This is due to property file not found");
+        }
         System.out.println(urlString);
         try {
             url = new URL(urlString);
@@ -115,12 +138,12 @@ public class RecordingController {
             return;
         }
         String path;
-        String proxyServerURL=ZAP_PROXY_ADDRESS+":"+ZAP_PROXY_PORT;
+        String proxyServerURL=configProperties.getProperty("ZAP_PROXY_ADDRESS")+":"+Integer.parseInt(configProperties.getProperty("ZAP_PROXY_PORT"));
         Proxy proxy=new Proxy();
         proxy.setHttpProxy(proxyServerURL);
         proxy.setSslProxy(proxyServerURL);
-        setClientApi();
-        WebDriverManager.chromedriver().clearDriverCache().setup();
+        setClientApi(configProperties.getProperty("ZAP_PROXY_ADDRESS"), Integer.parseInt(configProperties.getProperty("ZAP_PROXY_PORT")),configProperties.getProperty("ZAP_API_KEY"));
+        WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         if(System.getProperty("os.name").contains("Windows")){
             path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\TestCaseStudio.crx";
@@ -149,15 +172,15 @@ public class RecordingController {
     @FXML
     void getRecommendation(ActionEvent event) throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
-            consolelogscontent= SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/consolelogs.log");
-            jslogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/js.log");
-            performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/performancelogs.log");
+            consolelogscontent= SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/consolelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            jslogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/js.log").replaceAll("\\s","").replaceAll("\"", "'");
+            performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/performancelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
             securitylogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/security_zap_report.html").replaceAll("\\s","").replaceAll("\"", "'");
         } else {
-            consolelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/consolelogs.log");
-            jslogscontent = SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/js.log");
-            performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/performancelogs.log");
-            securitylogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/security_zap_report.html");
+            consolelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/consolelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            jslogscontent = SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/js.log").replaceAll("\\s","").replaceAll("\"", "'");
+            performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/performancelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            securitylogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/security_zap_report.html").replaceAll("\\s","").replaceAll("\"", "'");
         }
 
         if(System.getProperty("os.name").contains("Windows")){
@@ -171,22 +194,33 @@ public class RecordingController {
             performancelogrecommendationfilepath=System.getProperty("user.name")+"/Downloads/performancelogs.recommendation";
             securitylogrecommendationfilepath=System.getProperty("user.name")+"/Downloads/securitylogs.recommendation";
         }
-        genAIHandler=new GenAIHandler();
+        try {
+            String propertyfilepath = getPATH();
+            configProperties = new Properties();
+            configProperties = PropertyFileLoader.readPropertyValues(propertyfilepath);
+        }catch(Exception e){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("ERROR OCCURED, \nPlease check console logs");
+            alert.show();
+            e.printStackTrace();
+            throw new RuntimeException("This is due to property file not found");
+        }
+        genAIHandler=new GenAIHandler(configProperties.getProperty("CHATGPTURL"),configProperties.getProperty("CHATGPTAPI_KEY"));
 
         if(consolelogscontent!=null){
-            //SingletonFileHandler.getInstance().writeToFile(consolelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.CONSOLELOGSPROMPT,consolelogscontent));
+            SingletonFileHandler.getInstance().writeToFile(consolelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.CONSOLELOGSPROMPT,consolelogscontent));
         }else{
             System.out.println("Cannot run the Console logs recommendation");
         }
 
         if (jslogscontent!=null){
-            //SingletonFileHandler.getInstance().writeToFile(jslogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.JSLOGSPROMPT,jslogscontent));
+            SingletonFileHandler.getInstance().writeToFile(jslogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.JSLOGSPROMPT,jslogscontent));
         }else{
             System.out.println("Cannot run the Javascript logs recommendation");
         }
 
         if(performancelogscontent!=null){
-           // SingletonFileHandler.getInstance().writeToFile(performancelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.PERFORMANCELOGSPROMPT,performancelogscontent));
+           SingletonFileHandler.getInstance().writeToFile(performancelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.PERFORMANCELOGSPROMPT,performancelogscontent));
         }else{
             System.out.println("Cannot run the Performance logs recommendation");
         }
@@ -198,7 +232,7 @@ public class RecordingController {
         }
 
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("Recommendation task completed, Check the logs for more details");
+        alert.setContentText("Recommendation task completed, \nCheck the logs for more details");
         alert.show();
     }
 
@@ -230,7 +264,7 @@ public class RecordingController {
     }
 
     public boolean waitForPageLoad(WebDriver driver) {
-        if (new WebDriverWait(driver, 100).until((ExpectedCondition<Boolean>) wd ->
+        if (new WebDriverWait(driver, Duration.ofSeconds(100)).until((ExpectedCondition<Boolean>) wd ->
                 ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")) != null) {
 
             return true;
