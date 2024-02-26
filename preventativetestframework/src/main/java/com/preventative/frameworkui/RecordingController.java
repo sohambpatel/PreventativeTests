@@ -120,14 +120,14 @@ public class RecordingController {
         proxy.setHttpProxy(proxyServerURL);
         proxy.setSslProxy(proxyServerURL);
         setClientApi();
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().clearDriverCache().setup();
         ChromeOptions options = new ChromeOptions();
-//        if(System.getProperty("os.name").contains("Windows")){
-//            path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\1.7.2_0.crx";
-//        }else{
-//            path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/1.7.2_0.crx";
-//        }
-        //options.addExtensions(new File(path));
+        if(System.getProperty("os.name").contains("Windows")){
+            path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\TestCaseStudio.crx";
+        }else{
+            path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/TestCaseStudio.crx";
+        }
+        options.addExtensions(new File(path));
         options.setAcceptInsecureCerts(true);
         options.setProxy(proxy);
         driver = new ChromeDriver(options);
