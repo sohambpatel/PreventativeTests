@@ -122,12 +122,12 @@ public class RecordingController {
         setClientApi();
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        if(System.getProperty("os.name").contains("Windows")){
-            path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\1.7.2_0.crx";
-        }else{
-            path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/1.7.2_0.crx";
-        }
-        options.addExtensions(new File(path));
+//        if(System.getProperty("os.name").contains("Windows")){
+//            path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\1.7.2_0.crx";
+//        }else{
+//            path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/1.7.2_0.crx";
+//        }
+        //options.addExtensions(new File(path));
         options.setAcceptInsecureCerts(true);
         options.setProxy(proxy);
         driver = new ChromeDriver(options);
@@ -230,7 +230,7 @@ public class RecordingController {
     }
 
     public boolean waitForPageLoad(WebDriver driver) {
-        if (new WebDriverWait(driver, Duration.ofSeconds(100)).until((ExpectedCondition<Boolean>) wd ->
+        if (new WebDriverWait(driver, 100).until((ExpectedCondition<Boolean>) wd ->
                 ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")) != null) {
 
             return true;
