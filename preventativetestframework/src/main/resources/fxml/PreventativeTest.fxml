@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.preventative.frameworkui.TestFinalizerController">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="493.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <Label layoutX="84.0" layoutY="43.0" prefHeight="43.0" prefWidth="630.0" text="Preventative Test: Finalizing Test Suite" textFill="#6e6f75">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <Label layoutX="100.0" layoutY="70.0" prefHeight="43.0" prefWidth="630.0" text="Based on Synthetic App Monitoring" textFill="#6e6f75">
+
+            <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <Label layoutX="124.0" layoutY="124.0" text="Synthetic App Monitoring Output File Path :" />
+            <TextField fx:id="OUTPUTPATH" layoutX="365.0" layoutY="119.0" onKeyTyped="#updatedURL" prefHeight="26.0" prefWidth="240.0" />
+            <Label layoutX="124.0" layoutY="160.0" text="Test Repo Path :" />
+            <TextField fx:id="TESTREPOPATH" layoutX="220.0" layoutY="160.0" onKeyTyped="#updatePath" prefHeight="26.0" prefWidth="240.0" />
+            <Button fx:id="startrecordingButton" layoutX="161.0" layoutY="210.0" mnemonicParsing="false" onAction="#getClassMethodNames" prefHeight="35.0" prefWidth="160.0" text="Get Class/Method Name" />
+            <Button fx:id="stoprecording"  layoutX="340.0" layoutY="210.0" mnemonicParsing="false" onAction="#getTestCases" prefHeight="35.0" prefWidth="139.0" text="Get Test Cases" />
+            <ImageView fx:id="backButton" fitHeight="21.0" fitWidth="55.0" layoutX="110.0" layoutY="270.0" onMouseClicked="#frameworkScene" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/backarrow.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
