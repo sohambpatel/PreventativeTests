@@ -173,14 +173,22 @@ public class RecordingController {
     void getRecommendation(ActionEvent event) throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
             consolelogscontent= SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/consolelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             jslogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/js.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/performancelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             securitylogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.home")+"/Downloads/security_zap_report.html").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
         } else {
             consolelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/consolelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             jslogscontent = SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/js.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             performancelogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/performancelogs.log").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
             securitylogscontent=SingletonFileHandler.getInstance().readFile(System.getProperty("user.name")+"/Downloads/security_zap_report.html").replaceAll("\\s","").replaceAll("\"", "'");
+            SingletonFileHandler.getInstance().reset();
         }
 
         if(System.getProperty("os.name").contains("Windows")){

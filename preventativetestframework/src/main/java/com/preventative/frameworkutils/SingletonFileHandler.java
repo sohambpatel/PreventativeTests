@@ -9,22 +9,36 @@ public class SingletonFileHandler {
     File f1;
 
     String filedata="";
-    private static final SingletonFileHandler inst= new SingletonFileHandler();
+    private static SingletonFileHandler inst= new SingletonFileHandler();
 
     private SingletonFileHandler() {
         super();
+    }
+
+    public void reset() {
+        inst = new SingletonFileHandler();
     }
 
     public synchronized void writeToFile(String filenamealongwithpath,String contenttowrite) throws IOException {
         f1=new File(filenamealongwithpath);
         if(!(f1.exists())){
             f1.createNewFile();
+            fw1=new FileWriter(f1,true);
+            if(f1.exists()){
+                fw1.write(contenttowrite+"\n");
+                fw1.flush();
+                fw1.close();
+                System.out.print("File has been created since it wasnt present and content had been appended");
+            }else{
+                System.out.println("Please provide a valid path to destination file");
+            }
         }else{
             fw1=new FileWriter(f1,true);
             if(f1.exists()){
                 fw1.write(contenttowrite+"\n");
                 fw1.flush();
                 fw1.close();
+                System.out.print("File was present and content had been appended");
             }else{
                 System.out.println("Please provide a valid path to destination file");
             }

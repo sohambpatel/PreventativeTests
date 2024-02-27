@@ -31,13 +31,14 @@
             <TextField fx:id="JSONPATH" layoutX="220.0" layoutY="160.0" onKeyTyped="#updateJSONPath" prefHeight="26.0" prefWidth="240.0" />
             <Label layoutX="124.0" layoutY="200.0" text="Test Repo Path :" />
             <TextField fx:id="TESTREPOPATH" layoutX="220.0" layoutY="200.0" onKeyTyped="#updatePath" prefHeight="26.0" prefWidth="240.0" />
-            <Button fx:id="startrecordingButton" layoutX="161.0" layoutY="250.0" mnemonicParsing="false" onAction="#getClassMethodNames" prefHeight="35.0" prefWidth="160.0" text="Get Class/Method Name" />
-            <Button fx:id="stoprecording"  layoutX="340.0" layoutY="250.0" mnemonicParsing="false" onAction="#getTestCases" prefHeight="35.0" prefWidth="139.0" text="Get Test Cases" />
+            <Button fx:id="getClassNameMethodNameButton" layoutX="161.0" layoutY="250.0" mnemonicParsing="false" onAction="#getClassMethodNames" prefHeight="35.0" prefWidth="160.0" text="Get Class/Method Name" />
+            <Button fx:id="getTestCasesButton"  layoutX="340.0" layoutY="250.0" mnemonicParsing="false" onAction="#getTestCases" prefHeight="35.0" prefWidth="139.0" text="Get Test Cases" />
             <ImageView fx:id="backButton" fitHeight="21.0" fitWidth="55.0" layoutX="110.0" layoutY="270.0" onMouseClicked="#frameworkScene" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/backarrow.png" />
                </image>
             </ImageView>
+            <Text fx:id="message" fill="RED" layoutX="217.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please, enter a valid path" visible="false" />
          </children>
       </AnchorPane>
    </items>

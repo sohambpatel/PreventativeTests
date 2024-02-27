@@ -31,7 +31,7 @@
                   <Image url="@../images/backarrow.png" />
                </image>
             </ImageView>
-            <Text fx:id="message" fill="RED" layoutX="217.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please, enter a valid URL" visible="false" />
+            <Text fx:id="message" fill="RED" layoutX="217.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please, enter a valid URL" visible="false" />
          </children>
       </AnchorPane>
    </items>

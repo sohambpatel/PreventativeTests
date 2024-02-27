@@ -1,0 +1,18 @@
+{
+  "firstName": "John",
+  "lastName": "doe",
+  "age": 26,
+  "address": {
+    "streetAddress": "naist street",
+    "city": "Nara",
+    "postalCode": "630-0192"
+  },
+  "exceptions": [
+    {
+      "exception":"Caused by: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0\nat java.util.ArrayList.RangeCheck(ArrayList.java:572)\nat java.util.ArrayList.get(ArrayList.java:347)\nat com.sun.xml.bind.util.ProxyListImpl.get(ProxyListImpl.java:189)\nat com.mypkg.test.data.IAMGetTasksData.getOwner(IAMGetTasksData.java:1125)\nat com.mypkg.test.data.IAMGetTasksData.getOwnerEmpNumber(IAMGetTasksData.java:1287)"
+    },
+    {
+      "exception":"java.net.SocketTimeoutException: Read timed out\nat org.apache.axis.AxisFault.makeFault(AxisFault.java:129)\nat org.apache.axis.transport.http.HTTPSender.invoke(HTTPSender.java:131)\nat org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:71)\nat org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:150)\nat org.apache.axis.SimpleChain.invoke(SimpleChain.java:120)\nat org.apache.axis.client.AxisClient.invoke(AxisClient.java:180)\nat org.apache.axis.client.Call.invokeEngine(Call.java:2564)\nat org.apache.axis.client.Call.invoke(Call.java:2553)\nat org.apache.axis.client.Call.invoke(Call.java:2248)\nat org.apache.axis.client.Call.invoke(Call.java:2171)\nat org.apache.axis.client.Call.invoke(Call.java:1691)\nat com.mypkg.HttpClient.connectTo(HttpClient.java:110)\nat com.mypkg.NetworkCall.call(NetworkCall.java:110)\nat com.mypkg.GetCLD.main(GetCLD.java:145)"
+    }
+  ]
+}

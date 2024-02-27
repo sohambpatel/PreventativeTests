@@ -1,5 +1,7 @@
 package com.preventative.frameworkui;
 
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
 import com.preventative.frameworkutils.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import javafx.event.ActionEvent;
@@ -24,17 +26,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.zaproxy.clientapi.core.ClientApi;
 import org.zaproxy.clientapi.core.ClientApiException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TestFinalizerController {
 
@@ -45,43 +43,22 @@ public class TestFinalizerController {
     private TextField TESTREPOPATH;
 
     @FXML
+    private TextField JSONPATH;
+
+    @FXML
     private ImageView backButton;
 
     @FXML
     private Text message;
 
     @FXML
-    private Button startrecordingButton;
+    private Button getClassNameMethodNameButton;
 
     @FXML
-    private Button getrecommendation;
+    private Button getTestCasesButton;
 
-    @FXML
-    private Button stoprecording;
-    MetricsRecorder recordMetrics;
-    SecrityTestRecorder secrityTestRecorder;
-
-    GenAIHandler genAIHandler;
-    public static String consolelogscontent;
-    public static String jslogscontent;
-    public static String performancelogscontent;
-    public static String securitylogscontent;
-
-    public static String consolelogrecommendationfilepath;
-    public static String jslogrecommendationfilepath;
-    public static String performancelogrecommendationfilepath;
-    public static String securitylogrecommendationfilepath;
-
-    WebDriver driver;
-    FileWriter fw1;
-    PrintWriter pw1;
-    File f1;
-    Properties configProperties;
-    static final String ZAP_PROXY_ADDRESS="";
-    static final int ZAP_PROXY_PORT = 0;
-    static final String ZAP_API_KEY="";
-
-    public ClientApi clientApi;
+    JavaExceptionHandler exceptionHandler;
+    JSONFilePathHandler jsonFilePathHandler;
     public Text getMessage() {
         return message;
     }
@@ -95,6 +72,10 @@ public class TestFinalizerController {
     void updatePath(KeyEvent event){
         getMessage().setVisible(false);
     }
+    @FXML
+    void updateJSONPath(KeyEvent event){
+        getMessage().setVisible(false);
+    }
 
     private String getSyntheticAppMonitoringOutputFilePath() {
         return OUTPUTPATH.getText();
@@ -103,13 +84,10 @@ public class TestFinalizerController {
     private String getTestRepoPATH() {
         return TESTREPOPATH.getText();
     }
-    public void setClientApi(String zapproxyaddress,int zapport,String zapapikey){
-        clientApi=new ClientApi(zapproxyaddress,zapport,zapapikey);
+    private String getJsonPATH() {
+        return JSONPATH.getText();
     }
 
-    public ClientApi getClientApi(){
-        return clientApi;
-    }
 
     @FXML
     void frameworkScene(MouseEvent event) throws IOException {
@@ -119,49 +97,158 @@ public class TestFinalizerController {
 
     @FXML
     void getClassMethodNames(ActionEvent event) throws ClientApiException {
-        URL url;
-        String urlString = getSyntheticAppMonitoringOutputFilePath();
-        String propertyfilepath=getTestRepoPATH();
-        configProperties=new Properties();
-        configProperties=PropertyFileLoader.readPropertyValues(propertyfilepath);
-        System.out.println(urlString);
+        String jsonfilepath=getSyntheticAppMonitoringOutputFilePath();
+        String jsonpath=getJsonPATH();
         try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            getMessage().setText("Please, enter a valid URL");
-            getMessage().setVisible(true);
+            if(jsonfilepath.isEmpty()){
+                throw new RuntimeException("Please enter a valid path");
+            }
+        } catch (RuntimeException e) {
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid \nSynthetic App Monitoring Output File Path");
+            alert.show();
             return;
         }
-        String path;
-        String proxyServerURL=configProperties.getProperty("ZAP_PROXY_ADDRESS")+":"+Integer.parseInt(configProperties.getProperty("ZAP_PROXY_PORT"));
-        Proxy proxy=new Proxy();
-        proxy.setHttpProxy(proxyServerURL);
-        proxy.setSslProxy(proxyServerURL);
-        setClientApi(configProperties.getProperty("ZAP_PROXY_ADDRESS"), Integer.parseInt(configProperties.getProperty("ZAP_PROXY_PORT")),configProperties.getProperty("ZAP_API_KEY"));
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        if(System.getProperty("os.name").contains("Windows")){
-            path = System.getProperty("user.dir")+"\\preventativetestframework\\src\\main\\resources\\TestCaseStudio.crx";
-        }else{
-            path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/TestCaseStudio.crx";
+        try {
+            if(jsonpath.isEmpty()){
+                throw new RuntimeException("Please enter a valid path");
+            }
+        } catch (RuntimeException e) {
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid Json Path");
+            alert.show();
+            return;
         }
-        options.addExtensions(new File(path));
-        options.setAcceptInsecureCerts(true);
-        options.setProxy(proxy);
-        driver = new ChromeDriver(options);
-        driver.manage().deleteAllCookies();
-        driver.manage().window().maximize();
-        driver.get(url.toString());
-        recordMetrics=new MetricsRecorder(driver);
-        recordMetrics.captureConsoleLogs();
-        recordMetrics.capturePerformanceMetrics();
+        String[] segregatedjsonpath=jsonpath.split("\\[|\\]");
+        String getbasepath=segregatedjsonpath[0];
+        String getpathvariable=segregatedjsonpath[2].replace(".","");
+        jsonFilePathHandler=new JSONFilePathHandler();
+        exceptionHandler=new JavaExceptionHandler();
+        String jsoncontent=jsonFilePathHandler.jsonFileReader(jsonfilepath);
+        List<Object> exceptions= jsonFilePathHandler.readJsonPathUsingDocument(jsoncontent,getbasepath);
+        ArrayList<String> classname=new ArrayList<>();
+        ArrayList<String> methodname=new ArrayList<>();
+        for(Object exception:exceptions){
+            Map<String, String> map = (Map<String, String>) exception;
+            classname=exceptionHandler.parseJavaExceptionReturnClassName(map.get(getpathvariable),"class");
+            methodname=exceptionHandler.parseJavaExceptionReturnClassName(map.get(getpathvariable),"method");
+        }
+        System.out.print("Json file processing is done!!");
+        String classnamefilepath;
+        String methodnamefilepath;
+        if(System.getProperty("os.name").contains("Windows")){
+            classnamefilepath = System.getProperty("user.home")+"\\Downloads\\classname.txt";
+            methodnamefilepath = System.getProperty("user.home")+"\\Downloads\\methodname.txt";
+        }else{
+            classnamefilepath = System.getProperty("user.home")+"/Downloads/classname.txt";
+            methodnamefilepath = System.getProperty("user.home")+"/Downloads/methodname.txt";
+        }
+
+        try {
+            SingletonFileHandler.getInstance().writeToFile(classnamefilepath, classname.toString());
+            SingletonFileHandler.getInstance().writeToFile(methodnamefilepath, methodname.toString());
+            System.out.print("Exception processing is done!!");
+        } catch (IOException e) {
+            System.out.println(classnamefilepath+" doesnt exist or doent have data in it, please check the file and path");
+            System.out.println(methodnamefilepath+" doesnt exist or doent have data in it, please check the file and path");
+            throw new RuntimeException(e);
+        }
+
     }
     @FXML
     void getTestCases(ActionEvent event) throws IOException, ClientApiException {
-        recordMetrics=new MetricsRecorder(driver);
-        recordMetrics.captureJSLogsMetrics();
-        secrityTestRecorder=new SecrityTestRecorder();
-        secrityTestRecorder.tearDown(clientApi);
-        driver.quit();
+        String testrepopath=getTestRepoPATH();
+        try {
+            if(testrepopath.isEmpty()){
+                throw new RuntimeException("Please enter a valid path");
+            }
+        } catch (RuntimeException e) {
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid Test Repo Path");
+            alert.show();
+            return;
+        }
+        String classnamefilepath;
+        String methodnamefilepath;
+        if(System.getProperty("os.name").contains("Windows")){
+            classnamefilepath = System.getProperty("user.home")+"\\Downloads\\classname.txt";
+            methodnamefilepath = System.getProperty("user.home")+"\\Downloads\\methodname.txt";
+        }else{
+            classnamefilepath = System.getProperty("user.home")+"/Downloads/classname.txt";
+            methodnamefilepath = System.getProperty("user.home")+"/Downloads/methodname.txt";
+        }
+        System.out.print("Starting the Class file execution");
+        String classcontent=SingletonFileHandler.getInstance().readFile(classnamefilepath);
+        SingletonFileHandler.getInstance().reset();
+        String methodcontent=SingletonFileHandler.getInstance().readFile(methodnamefilepath);
+
+        Pattern ptr=Pattern.compile(",");
+        String[] classcontentarray=ptr.split(classcontent.trim());
+        String[] methodcontentarray=ptr.split(methodcontent.trim());
+        File directory = new File(testrepopath);
+        for(String classname:classcontentarray){
+            classname=classname.replaceAll("[\\[\\]]","");
+            directoryCrawler(directory,classname.trim());
+        }
+        for(String methodname:methodcontentarray){
+            methodname=methodname.replaceAll("[\\[\\]]","");
+            directoryCrawler(directory,methodname.trim());
+        }
+
+    }
+
+    public static void directoryCrawler(File directory, String searchWord) throws IOException {
+
+        File[] filesAndDirs = directory.listFiles();
+        try {
+            // Iterate the list of files, if it is identified as not a file call
+            // directoryCrawler method to list all the Spec files in that directory.
+            for (File file : filesAndDirs) {
+
+                if (file.isFile()) {
+                    if (file.getName().endsWith(".java")) {
+                            fileDifferentiator(file, searchWord);
+                    }
+                } else {
+                    directoryCrawler(file, searchWord);
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void fileDifferentiator(File file,String searchWord) throws IOException
+    {
+        String line="";
+        BufferedReader br;
+        String finalisedtestcases;
+        if(System.getProperty("os.name").contains("Windows")){
+            finalisedtestcases = System.getProperty("user.home")+"\\Downloads\\finalisedtestcases.txt";
+        }else{
+            finalisedtestcases = System.getProperty("user.home")+"/Downloads/finalisedtestcases.txt";
+        }
+        br = new BufferedReader(new FileReader(file));
+        try
+        {
+            while ((line = br.readLine()) != null) {
+                Pattern p = Pattern.compile(("\\b" + searchWord + "\\b"));
+                Matcher m = p.matcher(line);
+                while (m.find()) {
+                    if (line.contains(searchWord)) {
+                        System.out.println(file.getAbsolutePath());
+                        SingletonFileHandler.getInstance().writeToFile(finalisedtestcases, file.getAbsolutePath());
+                        break;
+                    }
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(file.getAbsolutePath()+"\n"+line);
+
+            e.printStackTrace();
+        }
     }
 }
