@@ -94,7 +94,8 @@ public class TestFinalizerController {
         Parent root = FXMLLoader.load(new ClassPathResource("/fxml/Framework.fxml").getURL());
         OUTPUTPATH.getScene().setRoot(root);
     }
-
+    //This is being used to read the synthetic app monitoring output
+    //Also parse th exception data based on the json path, segregate the method names and class names seperately
     @FXML
     void getClassMethodNames(ActionEvent event) throws ClientApiException {
         String jsonfilepath=getSyntheticAppMonitoringOutputFilePath();
@@ -155,6 +156,8 @@ public class TestFinalizerController {
         }
 
     }
+    //This is being used to generate the list of test cases which are relevent as per exception data
+    //Code coverage information is being used to classify the test cases based on the exception data
     @FXML
     void getTestCases(ActionEvent event) throws IOException, ClientApiException {
         String testrepopath=getTestRepoPATH();
@@ -197,6 +200,7 @@ public class TestFinalizerController {
 
     }
 
+    //This is to crawl the directory and file it contains
     public static void directoryCrawler(File directory, String searchWord) throws IOException {
 
         File[] filesAndDirs = directory.listFiles();
@@ -218,6 +222,7 @@ public class TestFinalizerController {
         }
     }
 
+    //This is a custom logic to short list and crawl the files selected based on exception data and return the test case if this matches the same information
     public static void fileDifferentiator(File file,String searchWord) throws IOException
     {
         String line="";

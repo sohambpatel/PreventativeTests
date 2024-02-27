@@ -20,6 +20,7 @@ public class JSONFilePathHandler {
     ObjectMapper mapper;
     InputStream inputStream;
 
+    //Reads the json file and return its content
     public String jsonFileReader(String jsonfilepath){
         try{
             String jsoncontent=new String(Files.readAllBytes(Paths.get(jsonfilepath)), StandardCharsets.UTF_8);
@@ -29,6 +30,7 @@ public class JSONFilePathHandler {
         }
     }
 
+    //Reads the json file based on the json path
     public String readJsonPath(String jsonfilecontent,String jsonpath){
         try{
             String content= JsonPath.read(jsonfilecontent,jsonpath);
@@ -38,6 +40,7 @@ public class JSONFilePathHandler {
             return null;
         }
     }
+    //Reads the json file based on the jsonpath and returns the Object list
     public List<Object> readJsonPathUsingDocument(String jsonfilecontent,String jsonpath){
         try{
             Object document = Configuration.defaultConfiguration().jsonProvider().parse(jsonfilecontent);

@@ -114,6 +114,8 @@ public class RecordingController {
         URL.getScene().setRoot(root);
     }
 
+    //This method is being used to run browser session and record 4 metrics, security, performance, js logs and console logs
+    //Here we are using selenium 4 capabilities for performace, js and console logs and ZAP for security logs
     @FXML
     void start(ActionEvent event) throws ClientApiException {
         URL url;
@@ -161,6 +163,8 @@ public class RecordingController {
         recordMetrics.captureConsoleLogs();
         recordMetrics.capturePerformanceMetrics();
     }
+    //This is tear down method which is used to stop the listners which has been started as a part of start session
+    //This is also being used to kill the driver created during the start session
     @FXML
     void stop(ActionEvent event) throws IOException, ClientApiException {
         recordMetrics=new MetricsRecorder(driver);
@@ -169,6 +173,7 @@ public class RecordingController {
         secrityTestRecorder.tearDown(clientApi);
         driver.quit();
     }
+    //This is being used to generate the recommendation based on the logs files generated
     @FXML
     void getRecommendation(ActionEvent event) throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
@@ -243,59 +248,4 @@ public class RecordingController {
         alert.setContentText("Recommendation task completed, \nCheck the logs for more details");
         alert.show();
     }
-
-
-    private Map<String, String> processWindowHandles(WebDriver driver) {
-        Map<String, String> allwindows = new LinkedHashMap<>();
-        Set<String> allWindowHandles = driver.getWindowHandles();
-        String mainWindowHandle = driver.getWindowHandle();
-        for (String win : allWindowHandles) {
-
-            allwindows.put(win, driver.switchTo().window(win).getTitle());
-        }
-        driver.switchTo().window(mainWindowHandle);
-        return allwindows;
-    }
-
-    private void execute(String fileContents, JavascriptExecutor js) {
-
-        js.executeScript(String.format("return window.onbeforeunload = function(){ window.localStorage.setItem('refresh', 'yes');}"));
-
-        String ss = (String) js.executeScript(String.format("return window.localStorage.getItem('%s');", "refresh"));
-
-        if (ss != null && !ss.equalsIgnoreCase("no")) {
-            System.out.println(ss);
-            js.executeScript(String.format("return window.localStorage.setItem('refresh', 'no');"));
-            js.executeScript(fileContents);
-        }
-
-    }
-
-    public boolean waitForPageLoad(WebDriver driver) {
-        if (new WebDriverWait(driver, Duration.ofSeconds(100)).until((ExpectedCondition<Boolean>) wd ->
-                ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")) != null) {
-
-            return true;
-
-        }
-        return false;
-    }
-
-    public boolean isBrowserClosed(WebDriver driver) {
-        boolean isClosed = false;
-        try {
-            driver.getTitle();
-        } catch (Exception ubex) {
-            if (waitForPageLoad(driver)) {
-                JavascriptExecutor js = ((JavascriptExecutor) driver);
-                // js.executeScript(String.format("return window.localStorage.setItem('mainurl', ('%s'));", url));
-                System.out.println((String) js.executeScript(String.format("return window.localStorage.getItem('%s');", "objectRepo")));
-            }
-            isClosed = true;
-        }
-
-        return isClosed;
-    }
-
-
 }

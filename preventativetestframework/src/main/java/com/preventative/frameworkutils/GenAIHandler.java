@@ -14,6 +14,7 @@ public class GenAIHandler {
         this.API_KEY=chatgptapikey;
     }
 
+    //This is the java coded chat gpt completion api which further reports if the chat gpt is not returning 200
     public String generateRecommendation(String prompt, String content) throws Exception {
         try {
             String id = "";

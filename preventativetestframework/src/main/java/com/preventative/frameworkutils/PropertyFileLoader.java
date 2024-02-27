@@ -10,6 +10,7 @@ import java.util.Properties;
 public class PropertyFileLoader {
     private static Properties properties;
 
+    //This is being used to read properties and make them available during the execution
     public static Properties readPropertyValues(String propertyfilepath){
         try{
             File configFile=new File(propertyfilepath);

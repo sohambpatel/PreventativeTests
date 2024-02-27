@@ -8,6 +8,7 @@ public class SecrityTestRecorder {
 
     RecordingController recordingController;
 
+    //Generating the security report based on the ZAP client api passed
     public void tearDown(ClientApi api) throws ClientApiException {
         if(api!=null){
             String title="Security Report";

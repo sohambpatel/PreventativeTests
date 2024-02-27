@@ -18,6 +18,7 @@ public class MetricsRecorder {
     public MetricsRecorder(WebDriver driver){
         this.driver=driver;
     }
+    //Create the listner and start capturing the console logs
     public void captureConsoleLogs(){
         DevTools devTools = ((HasDevTools) driver).getDevTools();
         devTools.createSession();
@@ -42,6 +43,7 @@ public class MetricsRecorder {
                 });
     }
 
+    //Create the listner and start capturing the performance logs
     public void capturePerformanceMetrics() {
         DevTools devTools = ((HasDevTools) driver).getDevTools();
         devTools.createSession();
@@ -84,6 +86,7 @@ public class MetricsRecorder {
                     + "and Response code is:" + entry.getResponse().getStatus());
         });
     }
+    //This is custom logic to capture the js logs from selenium logs
     public void captureJSLogsMetrics() throws IOException {
         String jslogfilelocation;
         if (System.getProperty("os.name").contains("Windows")) {

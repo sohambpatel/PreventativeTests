@@ -10,6 +10,8 @@ public class JavaExceptionHandler {
 public ArrayList<String> classname;
 public ArrayList<String> methodname;
 
+
+    //Parses the java exceptions and returns the methods and classes
     public ArrayList<String> parseJavaExceptionReturnClassName(String exceptionstacktrace, String classormethod) {
         classname=new ArrayList<String>();
         methodname=new ArrayList<String>();

@@ -19,6 +19,7 @@ public class SingletonFileHandler {
         inst = new SingletonFileHandler();
     }
 
+    //Writing into file in a synchronized manner
     public synchronized void writeToFile(String filenamealongwithpath,String contenttowrite) throws IOException {
         f1=new File(filenamealongwithpath);
         if(!(f1.exists())){
@@ -49,6 +50,7 @@ public class SingletonFileHandler {
         return inst;
     }
 
+    //Reading file in a synchronized manner
     public synchronized String readFile(String filenamealongwithpath) {
         try {
 
