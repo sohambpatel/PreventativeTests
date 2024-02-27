@@ -1,6 +1,8 @@
 # Preventative Tests
 
 This repo consist of a code related to Preventative tests which further has lot features. Just give the brief on what preventative tests are and what are the objectives of the same; Preventative Tests are the tests designed to reveal the application defects as soon as possible, in a efficient manner and with lot of time being saved.
+## Detailed Documentation
+https://github.com/sohambpatel/PreventativeTests/wiki
 ## Objectives :
 - Parallel test execution with following metrics captured during the test execution : We are capturing javascript logs, console logs, performance logs and security logs with the help of ZAP. It also generate the recommendation based on the LLM(currently using chatgpt) and generated logs.
 - Finalizing the test cases for execution based on Synthetic app monitoring outcome. Underneath it uses exception captured, parsed them, get class name and method name, code coverage information captured for each test case during its execution and based on the same provide the test cases to be executed to reveal the more issues.
