@@ -7,6 +7,15 @@ public class PromptHandler {
     public static final String PERFORMANCELOGSPROMPT="I've noticed that my website is running a bit slow, especially when loading certain pages or performing specific actions. I think it might have something to do with the performance. Can you help me figure out what's going on? Here are the logs";
     public static final String SECURITYLOGSPROMPT="I've been using ZAP Security testing tool to check the security of my web application, but I'm not sure how to interpret the logs it generates. Can you help me understand them and suggest some improvements? Here are the logs";
     public static String promptReturner(String promptname){
-        return promptname;
+        if(promptname=="CONSOLELOGSPROMPT"){
+            return CONSOLELOGSPROMPT;
+        }else if(promptname=="JSLOGSPROMPT"){
+            return JSLOGSPROMPT;
+        }else if(promptname=="PERFORMANCELOGSPROMPT"){
+            return PERFORMANCELOGSPROMPT;
+        } else if (promptname=="SECURITYLOGSPROMPT") {
+            return SECURITYLOGSPROMPT;
+        }
+        return null;
     }
 }

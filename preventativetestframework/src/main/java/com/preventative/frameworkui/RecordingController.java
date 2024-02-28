@@ -221,24 +221,28 @@ public class RecordingController {
         genAIHandler=new GenAIHandler(configProperties.getProperty("CHATGPTURL"),configProperties.getProperty("CHATGPTAPI_KEY"));
 
         if(consolelogscontent!=null){
-            SingletonFileHandler.getInstance().writeToFile(consolelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.CONSOLELOGSPROMPT,consolelogscontent));
+            System.out.println("Prompt used for this request is: "+PromptHandler.promptReturner("CONSOLELOGSPROMPT"));
+            SingletonFileHandler.getInstance().writeToFile(consolelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.promptReturner("CONSOLELOGSPROMPT"),consolelogscontent));
         }else{
             System.out.println("Cannot run the Console logs recommendation");
         }
 
         if (jslogscontent!=null){
+            System.out.println("Prompt used for this request is: "+PromptHandler.JSLOGSPROMPT);
             SingletonFileHandler.getInstance().writeToFile(jslogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.JSLOGSPROMPT,jslogscontent));
         }else{
             System.out.println("Cannot run the Javascript logs recommendation");
         }
 
         if(performancelogscontent!=null){
+            System.out.println("Prompt used for this request is: "+PromptHandler.PERFORMANCELOGSPROMPT);
            SingletonFileHandler.getInstance().writeToFile(performancelogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.PERFORMANCELOGSPROMPT,performancelogscontent));
         }else{
             System.out.println("Cannot run the Performance logs recommendation");
         }
 
         if(securitylogscontent!=null){
+            System.out.println("Prompt used for this request is: "+PromptHandler.SECURITYLOGSPROMPT);
             SingletonFileHandler.getInstance().writeToFile(securitylogrecommendationfilepath,genAIHandler.generateRecommendation(PromptHandler.SECURITYLOGSPROMPT,securitylogscontent));
         }else{
             System.out.println("Cannot run the Security logs recommendation");
