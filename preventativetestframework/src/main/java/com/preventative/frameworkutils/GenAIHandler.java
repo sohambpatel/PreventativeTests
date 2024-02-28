@@ -16,10 +16,10 @@ public class GenAIHandler {
 
     //This is the java coded chat gpt completion api which further reports if the chat gpt is not returning 200
     public String generateRecommendation(String prompt, String content) throws Exception {
+        String id = "";
+        URL url = new URL(this.CHATGPTURL + "/chat/completions");
+        HttpURLConnection httpConn = (HttpURLConnection)url.openConnection();
         try {
-            String id = "";
-            URL url = new URL(this.CHATGPTURL + "/chat/completions");
-            HttpURLConnection httpConn = (HttpURLConnection)url.openConnection();
             httpConn.setRequestMethod("POST");
             httpConn.setRequestProperty("Authorization", "Bearer " + this.API_KEY);
             httpConn.setRequestProperty("Content-Type", "application/json");
@@ -55,7 +55,7 @@ public class GenAIHandler {
         } catch (HttpResponseException httpResponseException) {
             httpResponseException.printStackTrace();
             System.out.println("Recommendation not generated");
-            return null;
+            return httpConn.getResponseMessage();
         }
 
     }
