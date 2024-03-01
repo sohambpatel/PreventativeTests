@@ -10,7 +10,7 @@ https://github.com/sohambpatel/PreventativeTests/wiki
 
 ## Installation
 
-You can download the generated jar from mendeley data repository and link for the same is
+You can download the generated jar from mendeley data repository and link for the same is https://data.mendeley.com/datasets/kpj9gcnsz2/1
 
 ## Usage
 
