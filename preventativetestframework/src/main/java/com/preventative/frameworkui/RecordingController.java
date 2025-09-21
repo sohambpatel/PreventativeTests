@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.*;
 
@@ -152,10 +153,10 @@ public class RecordingController {
         }else{
             path = System.getProperty("user.dir")+"/preventativetestframework/src/main/resources/TestCaseStudio.crx";
         }
-        options.addExtensions(new File(path));
+        //options.addExtensions(new File(path));
         options.setAcceptInsecureCerts(true);
         options.setProxy(proxy);
-        driver = new ChromeDriver(options);
+        driver = new ChromeDriver();
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.get(url.toString());

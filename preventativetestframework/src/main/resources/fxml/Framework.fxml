@@ -17,13 +17,16 @@
                         <Font name="System Bold" size="27.0" />
                     </font>
                 </Label>
-                <Label layoutX="103.0" layoutY="270.0" text="Copyright © 2024 Soham Patel, Kailas Patil Vishwakarma University. All rights reserved" textFill="#8b8fa1">
+                <Label layoutX="103.0" layoutY="270.0" text="Soham Patel, Kailas Patil, Vishwakarma University." textFill="#8b8fa1">
                     <font>
                         <Font size="12.0" />
                     </font>
                 </Label>
-                <RadioButton fx:id="startRecordingButton" layoutX="143.0" layoutY="119.0" mnemonicParsing="false" onAction="#startrecordingScene" text="Preventative Test, Parallel Execution : Start Testing" />
-                <RadioButton fx:id="startPreventativeTests" layoutX="143.0" layoutY="160.0" mnemonicParsing="false" onAction="#startpreventativeScene" text="Preventative Test, Finalizing Test Suite Based on Synthetic App Monitoring" />
+                <RadioButton fx:id="startRecordingButton" layoutX="143.0" layoutY="100.0" mnemonicParsing="false" onAction="#startrecordingScene" text="Preventative Test, Parallel Execution : Start Testing" />
+                <RadioButton fx:id="startPreventativeTests" layoutX="143.0" layoutY="130.0" mnemonicParsing="false" onAction="#startpreventativeScene" text="Preventative Test, Finalizing Test Suite Based on Synthetic App Monitoring" />
+                <RadioButton fx:id="startManualTestCaseGeneration" layoutX="143.0" layoutY="160.0" mnemonicParsing="false" onAction="#starttestcasegenerationScene" text="Preventative Test, Generating Manual Test Cases using GenAI" />
+                <RadioButton fx:id="startAutomatedTestCaseGeneration" layoutX="143.0" layoutY="190.0" mnemonicParsing="false" onAction="#startautomatedtestgenerationScene" text="Preventative Test, Generating Automated Test Cases using GenAI" />
+                <RadioButton fx:id="startRCA" layoutX="143.0" layoutY="220.0" mnemonicParsing="false" onAction="#startrcaScene" text="Preventative Test, Root Cause Analysis using GenAI" />
             </children></AnchorPane>
     </items>
 </SplitPane>

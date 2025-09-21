@@ -45,6 +45,15 @@ public class FrameworkController {
     RadioButton startPreventativeTests;
 
     @FXML
+    RadioButton startManualTestCaseGeneration;
+
+    @FXML
+    RadioButton startAutomatedTestCaseGeneration;
+
+    @FXML
+    RadioButton startRCA;
+
+    @FXML
     protected Button jiraxrayintegration;
 
     String selectedJenkinsFile = "";
@@ -71,5 +80,19 @@ public class FrameworkController {
         Parent root = FXMLLoader.load(new ClassPathResource("/fxml/PreventativeTest.fxml").getURL());
         startRecordingButton.getScene().setRoot(root);
     }
-
+    @FXML
+    void starttestcasegenerationScene(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(new ClassPathResource("/fxml/ManualTestCaseGenerator.fxml").getURL());
+        startManualTestCaseGeneration.getScene().setRoot(root);
+    }
+    @FXML
+    void startautomatedtestgenerationScene(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(new ClassPathResource("/fxml/AutomatedTestCaseGenerator.fxml").getURL());
+        startAutomatedTestCaseGeneration.getScene().setRoot(root);
+    }
+    @FXML
+    void startrcaScene(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(new ClassPathResource("/fxml/RCA.fxml").getURL());
+        startRCA.getScene().setRoot(root);
+    }
 }

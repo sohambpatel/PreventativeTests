@@ -6,6 +6,10 @@ public class PromptHandler {
     public static final String CONSOLELOGSPROMPT="You've been given access to the console logs of a web application, which contain valuable information about its performance and any potential errors or warnings.Your task is to carefully examine these console logs and provide recommendations to improve the functionality and user experience of the web application";
     public static final String PERFORMANCELOGSPROMPT="I've noticed that my website is running a bit slow, especially when loading certain pages or performing specific actions. I think it might have something to do with the performance. Can you help me figure out what's going on? Here are the logs";
     public static final String SECURITYLOGSPROMPT="I've been using ZAP Security testing tool to check the security of my web application, but I'm not sure how to interpret the logs it generates. Can you help me understand them and suggest some improvements? Here are the logs";
+    public static final String TESTCASEPROMPT="Based on these error logs, suggest corresponding test cases in Gherkin format or BDD style.Also Make sure Test case should validate user interactions, check for UI elements, ensure that it covers specific actions lead to the unexpected outcomes";
+    public static final String AUTOMATEDTESTCASEPROMPT="Based on the json file provided, create selenium test cases. Test case should be independent and can run without any other additional code required. It should use java and assume its selenium test NG Framework.";
+    public static final String RCAPROMPT="Review the following logs and trace spans to extract the top 3 critical issues along with their causes and impacted services.";
+
     public static String promptReturner(String promptname){
         if(promptname=="CONSOLELOGSPROMPT"){
             return CONSOLELOGSPROMPT;
@@ -15,6 +19,12 @@ public class PromptHandler {
             return PERFORMANCELOGSPROMPT;
         } else if (promptname=="SECURITYLOGSPROMPT") {
             return SECURITYLOGSPROMPT;
+        } else if (promptname=="TESTCASEPROMPT") {
+            return TESTCASEPROMPT;
+        } else if (promptname=="AUTOMATEDTESTCASEPROMPT") {
+            return AUTOMATEDTESTCASEPROMPT;
+        } else if (promptname=="RCAPROMPT") {
+            return RCAPROMPT;
         }
         return null;
     }

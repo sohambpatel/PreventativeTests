@@ -3,8 +3,8 @@ package com.preventative.frameworkutils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
-import org.openqa.selenium.devtools.v121.console.Console;
-import org.openqa.selenium.devtools.v121.network.Network;
+import org.openqa.selenium.devtools.v139.console.Console;
+import org.openqa.selenium.devtools.v139.network.Network;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -47,7 +47,15 @@ public class MetricsRecorder {
     public void capturePerformanceMetrics() {
         DevTools devTools = ((HasDevTools) driver).getDevTools();
         devTools.createSession();
-        devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
+        //devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()),5000);
+        devTools.send(
+                Network.enable(
+                        Optional.empty(),  // maxTotalBufferSize
+                        Optional.empty(),  // maxResourceBufferSize
+                        Optional.empty(),  // maxPostDataSize
+                        Optional.empty()   // maxPostDataSizeInBytes (new in v137)
+                )
+        );
         String performancelogfilelocation;
         if (System.getProperty("os.name").contains("Windows")) {
             performancelogfilelocation = System.getProperty("user.home")+"\\Downloads\\performancelogs.log";
@@ -58,7 +66,8 @@ public class MetricsRecorder {
             try {
                 SingletonFileHandler.getInstance().writeToFile(performancelogfilelocation, "Request (id): " + entry.getRequestId()
                         + "URL is: " + entry.getRequest().getUrl()
-                        + "and Request Type is: " + entry.getRequest().getMethod());
+                        + "and Request Type is: " + entry.getRequest().getMethod()
+                        + "size is: " + entry.getRequest().getHeaders().size());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -75,7 +84,8 @@ public class MetricsRecorder {
                         + "URL is: " + entry.getResponse().getUrl()
                         + "Response body is: " + entry.getResponse().getStatusText()
                         + "Response time is: " + entry.getResponse().getResponseTime()
-                        + "and Response code is:" + entry.getResponse().getStatus());
+                        + "and Response code is:" + entry.getResponse().getStatus()
+                        + "size is: " + entry.getResponse().getHeaders().size());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
